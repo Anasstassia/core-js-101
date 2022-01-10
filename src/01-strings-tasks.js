@@ -207,8 +207,32 @@ function extractEmails(str) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
+function getRectangleString(width, height) {
+  let topSide = '┌';
+  let middleSide = '│';
+  let bottomSide = '└';
+
+  for (let i = 0; i < width - 2; i += 1) {
+    topSide += '─';
+  }
+  topSide += '┐';
+
+  for (let i = 0; i < width - 2; i += 1) {
+    bottomSide += '─';
+  }
+  bottomSide += '┘';
+  for (let i = 0; i < width - 2; i += 1) {
+    middleSide += ' ';
+  }
+  middleSide += '│\n';
+
+  for (let i = 0; i < height - 3; i += 1) {
+    middleSide += `${middleSide}`;
+  }
+  if (height < 3) {
+    middleSide = '';
+  }
+  return `${topSide}\n${middleSide}${bottomSide}\n`;
 }
 
 
@@ -228,8 +252,40 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+function encodeToRot13(str) {
+  let result = '';
+  let charcode = 0;
+  const lowerCase = {
+    start: 97,
+    end: 122,
+  };
+
+  const upperCase = {
+    start: 65,
+    end: 90,
+  };
+
+  const isLetter = (charCode) => (
+    charCode >= lowerCase.start && charCode <= lowerCase.end)
+     || (charCode >= upperCase.start && charCode <= upperCase.end);
+
+  for (let i = 0; i < str.length; i += 1) {
+    if (!isLetter(str[i].charCodeAt())) {
+      result += str[i];
+    } else {
+      charcode = (str[i].charCodeAt());
+      if (charcode + 13 > 90 && charcode <= 90) {
+        charcode = charcode - 25 + 13 - 1;
+      } else
+      if (charcode + 13 > 122 && charcode <= 122) {
+        charcode = charcode - 25 + 13 - 1;
+      } else {
+        charcode += 13;
+      }
+      result += String.fromCharCode(charcode);
+    }
+  }
+  return result;
 }
 
 /**
@@ -245,8 +301,8 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+function isString(value) {
+  return typeof value?.valueOf() === 'string';
 }
 
 
