@@ -260,6 +260,7 @@ describe('07-promises-tasks', () => {
       })
       .finally(() => {
         if (messages.length > 0) {
+          console.log(messages)
           done(Error(`\t${messages.join(';\n\t\t')}`));
         } else {
           done();

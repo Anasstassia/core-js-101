@@ -480,8 +480,12 @@ function getIdentityMatrix(n) {
  *     0, 100 => [ 0, 1, 2, ..., 100 ]
  *     3, 3   => [ 3 ]
  */
-function getIntervalArray(/* start, end */) {
-  throw new Error('Not implemented');
+function getIntervalArray(start, end) {
+  const length = end - start + 1;
+  // const arr = new Array(length).fill(0);
+  // arr[0] = start;
+  // return arr.map((el, i) => arr[0] + i);
+  return Array.from({ length }, (_, i) => start + i);
 }
 
 /**
@@ -495,8 +499,8 @@ function getIntervalArray(/* start, end */) {
  *   [ 'a', 'a', 'a', 'a' ]  => [ 'a' ]
  *   [ 1, 1, 2, 2, 3, 3, 4, 4] => [ 1, 2, 3, 4]
  */
-function distinct(/* arr */) {
-  throw new Error('Not implemented');
+function distinct(arr) {
+  return [...new Set(arr)];
 }
 
 /**
@@ -529,8 +533,18 @@ function distinct(/* arr */) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+function group(array, keySelector, valueSelector) {
+  return array.reduce((acc, el) => {
+    const currentKey = keySelector(el);
+    const currentValue = valueSelector(el);
+
+    if (acc.has(currentKey)) {
+      acc.set(currentKey, [...acc.get(currentKey), currentValue]);
+      return acc;
+    }
+    acc.set(currentKey, [currentValue]);
+    return acc;
+  }, new Map());
 }
 
 
